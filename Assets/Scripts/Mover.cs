@@ -8,7 +8,7 @@ public class Mover : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rigidBody = GetComponent<Rigidbody> ();
-		rigidBody.velocity = transform.forward * speed;
+		rigidBody.velocity =  transform.forward * speed; 
 	}
 	
 	// Update is called once per frame

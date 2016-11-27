@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
 	public GameObject hazard;
-
 	public GameObject turret;
+	public GameObject explosion;
+	public GameObject playerExplosion;
+
 	public Vector3 spawnValues;
 	private Vector3 spawnPosition;
 
@@ -15,29 +18,34 @@ public class GameController : MonoBehaviour {
 	public float startWait;
 	public float waveWait;
 
-	public GUIText gameOverText;
-	public GUIText restartText;
+
+
+	public InputField nameInput;
+
+	public Text scoreTextOnPanel;
+
+	public GameObject gameOverPanel;
 
 	private bool gameOver;
 	private bool restart;
 
-	public GUIText scoreText;
+	public GUIText scoreTextOnGameScreen;
 	private int score;
 
 	// Use this for initialization
 	void Start () {
 
+		SetInGameSoundVol ();
+
 		gameOver = false;
 		restart = false;
-		restartText.text = "";
-		gameOverText.text = "";
 
 		score = 0;
 		UpdateScore ();
 		StartCoroutine (SpawnWaves ());
 	}
 
-	//TODO: calculate angles properly.
+
 	//Spawn waves of asteroids
 	IEnumerator SpawnWaves()
 	{
@@ -45,7 +53,11 @@ public class GameController : MonoBehaviour {
 
 		while (true)
 		{
-			for (int i = 0; i < hazardCount; i++) {
+			for (int i = 0; i < hazardCount; i++) 
+			{
+				if (gameOver) {	
+					break;
+				}
 			
 				int random = Random.Range (0, 4);
 				Quaternion spawnRotation = Quaternion.identity;
@@ -78,44 +90,33 @@ public class GameController : MonoBehaviour {
 
 				Instantiate (hazard, spawnPosition, spawnRotation);
 
-				if (gameOver) {
-
-					restartText.text = "Press 'R' for Restart";
-					restart = true;
-					break;
-				}
-
 				yield return new WaitForSeconds (spawnWait);
 			}
 
 			if (gameOver) {
-
-				restartText.text = "Press 'R' for Restart";
-				restart = true;
 				break;
 			}
 			yield return new WaitForSeconds (waveWait);
-
-
 		}
-
 	}
 
 	void Update()
 	{
 		if (restart) {
 		
-			if (Input.GetKeyDown (KeyCode.R)) {
-				Scene scene = SceneManager.GetActiveScene(); 
-				SceneManager.LoadScene(scene.name);
-			}
+			//if (Input.GetKeyDown (KeyCode.R)) {
+				Scene scene = SceneManager.GetActiveScene (); 
+				SceneManager.LoadScene (scene.name);
+			//}
 		}
 	}
 
 	public void GameOver()
 	{
-		gameOverText.text = "Game Over";
+		
+		gameOverPanel.SetActive (true);
 		gameOver = true;
+		scoreTextOnPanel.text = scoreTextOnGameScreen.text;
 	}
 
 	public void AddScore(int newScoreValue)
@@ -126,6 +127,62 @@ public class GameController : MonoBehaviour {
 
 	void UpdateScore () {
 
-		scoreText.text = "Score: " + score;
+		scoreTextOnGameScreen.text = "Score: " + score;
+	}
+
+	public void RestartGame()
+	{
+		restart = true;
+	}
+
+	public void AddScoreToLeaderBoard()
+	{
+		if (GameDataController.gameDataController != null) 
+		{
+			if (GameDataController.gameDataController.gameData.leaderBoard != null) 
+			{
+				if (GameDataController.gameDataController.gameData.leaderBoard != null) 
+				{
+					GameDataController.gameDataController.gameData.AddNewScore (nameInput.textComponent.text,score);
+				} 
+				else 
+				{
+					Debug.Log ("Scores is NULL");
+				}
+			} 
+			else
+			{
+				Debug.Log ("LeaderBoard is NUll");
+			}
+		}	
+		else
+		{
+			Debug.Log ("gameData is NULL");
+		}
+	}
+
+	public void SetInGameSoundVol()
+	{
+
+		float masterVol = GameDataController.gameDataController.gameData.masterVol;
+		float musicVol = GameDataController.gameDataController.gameData.backgroundMusicVol;
+		float effectsVol = GameDataController.gameDataController.gameData.soundEffectsVol;
+
+		SetMusicVol(masterVol > musicVol ? musicVol : masterVol);
+		SetEffectVol(masterVol > effectsVol ? effectsVol : masterVol);
+	}
+	public void SetMusicVol(float value)
+	{
+		AudioSource asource = GetComponent<AudioSource> ();
+		asource.volume = value;
+	}
+	public void SetEffectVol(float value)
+	{
+		AudioSource asource = turret.GetComponent<AudioSource> ();
+		asource.volume = value;
+		asource = explosion.GetComponent<AudioSource> ();
+		asource.volume = value;
+		asource = playerExplosion.GetComponent<AudioSource> ();
+		asource.volume = value;
 	}
 }

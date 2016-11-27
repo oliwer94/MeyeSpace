@@ -3,8 +3,7 @@ using System.Collections;
 
 public class DestroyByContact : MonoBehaviour {
 
-	public GameObject explosion;
-	public GameObject playerExplosion;
+
 	public int scoreValue;
 	private GameController gameController;
 
@@ -25,18 +24,26 @@ public class DestroyByContact : MonoBehaviour {
 		if (other.tag == "Boundary") {
 			return;
 		}
-		Instantiate (explosion, transform.position, transform.rotation);
+		Instantiate (gameController.explosion, transform.position, transform.rotation);
 
 		if (other.tag == "Player") {
-			Instantiate (playerExplosion, other.transform.position, other.transform.rotation);
-			gameController.GameOver ();
+
+			Instantiate (gameController.playerExplosion, other.transform.position, other.transform.rotation);
+			//destroys player sprite
+			Destroy (other.transform.parent.gameObject);
+			//destroys turret
+			Destroy (gameController.turret);
+
+			gameController.GameOver ();		
 		}
 
-		gameController.AddScore (scoreValue);
+		if (other.tag == "Bolt") {
+			gameController.AddScore (scoreValue);
+		}
+		//destroys the gameObject that it collided with so laserBolt/Player (hitbox)
 		Destroy (other.gameObject);
-		Destroy (gameObject);
-		Destroy (other.transform.parent.gameObject);
-		Destroy (gameController.turret);
+		//destroys itself (asteroid)
+		Destroy (gameObject);		
 	}
 
 }
