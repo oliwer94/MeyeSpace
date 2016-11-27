@@ -9,10 +9,9 @@ public class RandomRotator : MonoBehaviour {
 	public float tumble;
 
 	void Start () {
-	
-		rigidBody = GetComponent<Rigidbody> ();
 
-		rigidBody.angularVelocity = Random.insideUnitSphere * tumble;
+		rigidBody = GetComponent<Rigidbody> ();
+		rigidBody.angularVelocity =  Random.insideUnitSphere * tumble;
 	}
 
 
@@ -21,3 +20,5 @@ public class RandomRotator : MonoBehaviour {
 	
 	}
 }
+
+
