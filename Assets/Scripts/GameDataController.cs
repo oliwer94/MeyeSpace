@@ -38,6 +38,7 @@ public class GameDataController : MonoBehaviour {
 	{
 		BinaryFormatter bf = new BinaryFormatter ();
 		FileStream fs = File.Create (Application.persistentDataPath + "/playerInfo.dat");
+		Debug.Log (Application.persistentDataPath);
 
 	
 		bf.Serialize (fs, gameData);

@@ -6,9 +6,19 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour {
 
 	public GameObject hazard;
+	public GameObject hazard2;
+	public GameObject hazard3;
+
+	public GameObject MediPack;
+	public GameObject Skull;
+	public GameObject Lightning;
+	public GameObject Bomb;
+
+
 	public GameObject turret;
 	public GameObject explosion;
 	public GameObject playerExplosion;
+	public GameObject targetingLine;
 
 	public Vector3 spawnValues;
 	private Vector3 spawnPosition;
@@ -20,6 +30,8 @@ public class GameController : MonoBehaviour {
 
 
 
+	public int lives;
+
 	public InputField nameInput;
 
 	public Text scoreTextOnPanel;
@@ -30,6 +42,10 @@ public class GameController : MonoBehaviour {
 	private bool restart;
 
 	public GUIText scoreTextOnGameScreen;
+	public GUIText livesTextOnGameScreen;
+
+
+	public float fireRate = 0.5f; //0.413993
 	private int score;
 
 	// Use this for initialization
@@ -39,7 +55,7 @@ public class GameController : MonoBehaviour {
 
 		gameOver = false;
 		restart = false;
-
+		lives = 3;
 		score = 0;
 		UpdateScore ();
 		StartCoroutine (SpawnWaves ());
@@ -49,10 +65,15 @@ public class GameController : MonoBehaviour {
 	//Spawn waves of asteroids
 	IEnumerator SpawnWaves()
 	{
+		hazardCount += 50;
+		spawnWait -= 0.001f;
+
 		yield return new WaitForSeconds (startWait);
 
 		while (true)
 		{
+
+
 			for (int i = 0; i < hazardCount; i++) 
 			{
 				if (gameOver) {	
@@ -88,8 +109,38 @@ public class GameController : MonoBehaviour {
 					break;
 				}
 
-				Instantiate (hazard, spawnPosition, spawnRotation);
+				if (Random.Range (0, 1001) < 51) 
+				{
+					switch (Random.Range (0, 4)) {
+					case 0:
+						Instantiate (Bomb, spawnPosition, spawnRotation);
+						break;
+					case 1:
+						Instantiate (Skull, spawnPosition, spawnRotation);
+						break;
+					case 2:
+						Instantiate (MediPack, spawnPosition, spawnRotation);
+						break;
+					case 3:
+						Instantiate (Lightning, spawnPosition, spawnRotation);
+						break;
+					}
 
+				} else {
+
+					switch (Random.Range (0, 3)) {
+					case 0:
+						Instantiate (hazard, spawnPosition, spawnRotation);
+						break;
+					case 1:
+						Instantiate (hazard2, spawnPosition, spawnRotation);
+						break;
+					case 2:
+						Instantiate (hazard3, spawnPosition, spawnRotation);
+						break;
+					}
+				
+				}
 				yield return new WaitForSeconds (spawnWait);
 			}
 
@@ -109,6 +160,23 @@ public class GameController : MonoBehaviour {
 				SceneManager.LoadScene (scene.name);
 			//}
 		}
+	}
+
+	public void IncreaseFireRate()
+	{
+		this.fireRate -= 0.05f;
+	}
+
+	public void IncreaseLives()
+	{
+		this.lives++;
+		livesTextOnGameScreen.text = "Lives: " + lives;
+	}
+
+	public void DecreaseLives()
+	{
+		this.lives--;
+		livesTextOnGameScreen.text = "Lives: " + lives;
 	}
 
 	public void GameOver()

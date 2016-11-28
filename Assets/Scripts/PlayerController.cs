@@ -4,27 +4,39 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
 
-	// Use this for initialization
-	void Start ()
-	{
-		audioSource = GetComponent<AudioSource> ();
-	}
 
 	public GameObject shot;
 	public Transform turret;
 
 
-	public float fireRate = 0.01f;
+
 	public float nextFire = 0.0f;
 	private AudioSource audioSource;
-	public float yRotation = 5.0F;
+	public GameController gameController;
+
+	// Use this for initialization
+	void Start ()
+	{
+		audioSource = GetComponent<AudioSource> ();
+
+		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
+		if (gameControllerObject != null) {
+			gameController = gameControllerObject.GetComponent<GameController> ();
+		}
+		if (gameController == null) {
+			Debug.Log ("Cannot find 'GameController' script");
+		}
+	}
+
+
+
 
 
 	// Update is called once per frame
 	void Update ()
 	{		
-		if (Input.GetKey (KeyCode.Space) && Time.time > nextFire) {
-			nextFire = Time.time + fireRate;
+		if (Time.time > nextFire) {
+			nextFire = Time.time + gameController.fireRate;
 
 			Vector3 wayToGo = new Vector3 (0, turret.rotation.eulerAngles.y, turret.rotation.eulerAngles.z);
 			Quaternion q = turret.rotation;
@@ -33,6 +45,8 @@ public class PlayerController : MonoBehaviour
 			Instantiate (shot, turret.position, q);
 			audioSource.Play ();
 		}
+
+
 
 //		Vector3 targetPos = getTargetPosition ();
 //	

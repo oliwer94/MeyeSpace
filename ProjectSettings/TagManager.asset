@@ -8,6 +8,11 @@ TagManager:
   - Boundary
   - Turret
   - Bolt
+  - MediPack
+  - Skull
+  - Lightning
+  - Bomb
+  - Asteroid
   layers:
   - Default
   - TransparentFX
