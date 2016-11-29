@@ -21,7 +21,7 @@ GameObject:
   - 4: {fileID: 4000014031567472}
   - 33: {fileID: 33000010037918000}
   - 23: {fileID: 23000011398604050}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Skull Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - 114: {fileID: 114000010461999316}
   - 114: {fileID: 114000010234456774}
   - 114: {fileID: 114000012987198986}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Skull
   m_TagString: Skull
   m_Icon: {fileID: 0}

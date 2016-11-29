@@ -8,6 +8,8 @@ public class GameData
 	public float soundEffectsVol;
 	public float masterVol;
 
+	public int difficulityLevel;
+
 	public List<LeaderBoardEntry> leaderBoard = new List<LeaderBoardEntry> ();
 
 

@@ -44,7 +44,7 @@ public class GameController : MonoBehaviour {
 	public GUIText scoreTextOnGameScreen;
 	public GUIText livesTextOnGameScreen;
 
-
+	public int dropRate;
 	public float fireRate = 0.5f; //0.413993
 	private int score;
 
@@ -52,6 +52,29 @@ public class GameController : MonoBehaviour {
 	void Start () {
 
 		SetInGameSoundVol ();
+
+		switch (GameDataController.gameDataController.gameData.difficulityLevel) {
+
+		case 0:
+			hazardCount = (int)Constants.asteroidSpawnNumber.easy;
+			fireRate = ((float)Constants.fireRate.easy)/100;
+			dropRate = (int)Constants.powerUpPercentage.easy;
+			spawnWait = ((float)Constants.spawnWait.easy)/100;
+			break;
+		case 1:
+			hazardCount = (int)Constants.asteroidSpawnNumber.medium;
+			fireRate = ((float)Constants.fireRate.medium)/100;
+			dropRate = (int)Constants.powerUpPercentage.medium;
+			spawnWait = ((float)Constants.spawnWait.medium)/100;
+			break;
+		case 2:
+			hazardCount =(int) Constants.asteroidSpawnNumber.hard;
+			fireRate = ((float)Constants.fireRate.hard)/100;
+			dropRate = (int)Constants.powerUpPercentage.hard;
+			spawnWait = ((float)Constants.spawnWait.hard)/100;
+			break;
+		}
+		Debug.Log (fireRate);
 
 		gameOver = false;
 		restart = false;
@@ -65,14 +88,13 @@ public class GameController : MonoBehaviour {
 	//Spawn waves of asteroids
 	IEnumerator SpawnWaves()
 	{
-		hazardCount += 50;
-		spawnWait -= 0.001f;
+		
 
 		yield return new WaitForSeconds (startWait);
 
 		while (true)
 		{
-
+			
 
 			for (int i = 0; i < hazardCount; i++) 
 			{
@@ -109,7 +131,7 @@ public class GameController : MonoBehaviour {
 					break;
 				}
 
-				if (Random.Range (0, 1001) < 51) 
+				if (Random.Range (0, 1000) < dropRate) 
 				{
 					switch (Random.Range (0, 4)) {
 					case 0:
@@ -146,7 +168,12 @@ public class GameController : MonoBehaviour {
 
 			if (gameOver) {
 				break;
+			} else {
+				
+				hazardCount += 50;
+				spawnWait -= 0.001f;
 			}
+
 			yield return new WaitForSeconds (waveWait);
 		}
 	}

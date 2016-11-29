@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 
 public class DestroyByContact : MonoBehaviour
@@ -23,6 +23,7 @@ public class DestroyByContact : MonoBehaviour
 
 	void OnTriggerEnter (Collider other)
 	{
+		
 		if (other.tag == "Boundary") {
 			return;
 		}
@@ -30,6 +31,7 @@ public class DestroyByContact : MonoBehaviour
 		Instantiate (gameController.explosion, transform.position, transform.rotation);
 
 		if (other.tag == "Player") {
+
 
 			SpecialCases (other);
 
@@ -62,9 +64,38 @@ public class DestroyByContact : MonoBehaviour
 		gameController.GameOver ();		
 	}
 
+
+
+	private void Bum(RaycastHit[] hits,GameObject bomb)
+	{
+		
+
+		for (int i = 0; i < hits.Length; i++) {
+			GameObject objectInRange = hits [i].collider.gameObject;
+
+			if (objectInRange.tag == "Skull" || objectInRange.tag == "MediPack" ||  objectInRange.tag == "Lightning" || objectInRange.tag == "Asteroid" ) {
+				
+				Destroy (objectInRange);
+				Instantiate (gameController.explosion, objectInRange.transform.position,objectInRange.transform.rotation);
+			}
+			if (objectInRange.tag == "Bomb" && objectInRange != bomb) {
+				RaycastHit[] hitsAgain = Physics.SphereCastAll (new Ray (objectInRange.transform.position,objectInRange.transform.position*5.0f) , 5.0f);
+
+				if (explodedBombs.Contains (objectInRange)) {
+					explodedBombs.Add (objectInRange);
+					Bum (hitsAgain, objectInRange);
+				}
+				Destroy (objectInRange);
+				Instantiate (gameController.explosion, objectInRange.transform.position,objectInRange.transform.rotation);
+			}
+		}
+	}
+
+	private List<GameObject> explodedBombs;
+
 	private void SpecialCases(Collider other)
 	{
-
+		
 		if (gameObject.tag == "MediPack")
 		{
 			gameController.IncreaseLives ();
@@ -79,17 +110,10 @@ public class DestroyByContact : MonoBehaviour
 		}
 		if (gameObject.tag == "Bomb") 
 		{
-			RaycastHit[] hits = Physics.SphereCastAll (new Ray (gameObject.transform.position,gameObject.transform.position*5F) , 5.0f);
-
-			for (int i = 0; i < hits.Length; i++) {
-				GameObject objectInRange = hits [i].collider.gameObject;
-
-				if (objectInRange.tag == "Asteroid") {
-					
-					Destroy (objectInRange);
-					Instantiate (gameController.explosion, objectInRange.transform.position,objectInRange.transform.rotation);
-				}
-			}
+			explodedBombs = new List<GameObject> ();
+			RaycastHit[] hits = Physics.SphereCastAll (new Ray (gameObject.transform.position,gameObject.transform.position*5.0f) , 5.0f);
+			explodedBombs.Add (gameObject);
+			Bum (hits,other.gameObject);
 		}
 		if(gameObject.tag == "Asteroid" && other.tag == "Player")
 		{
@@ -103,5 +127,7 @@ public class DestroyByContact : MonoBehaviour
 			//destroys player sprites
 			GameOver (other);
 		}
+
 	}
 }
+

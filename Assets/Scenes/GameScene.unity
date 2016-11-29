@@ -1773,7 +1773,7 @@ MonoBehaviour:
   targetingLine: {fileID: 2049255983}
   spawnValues: {x: 19, y: 0, z: 12}
   hazardCount: 100
-  spawnWait: 0.2
+  spawnWait: 0.05
   startWait: 1
   waveWait: 5
   lives: 3
@@ -1782,6 +1782,7 @@ MonoBehaviour:
   gameOverPanel: {fileID: 1601378077}
   scoreTextOnGameScreen: {fileID: 15154299}
   livesTextOnGameScreen: {fileID: 1054193209}
+  dropRate: 0
   fireRate: 0.2
 --- !u!82 &1601051358
 AudioSource:
@@ -2400,7 +2401,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 15
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

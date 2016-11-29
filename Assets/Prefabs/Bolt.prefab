@@ -21,7 +21,7 @@ GameObject:
   - 4: {fileID: 4000013901598826}
   - 33: {fileID: 33000012577536590}
   - 23: {fileID: 23000011255543814}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - 54: {fileID: 54000012679063264}
   - 114: {fileID: 114000013547832086}
   - 65: {fileID: 65000012508032174}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bolt
   m_TagString: Bolt
   m_Icon: {fileID: 0}

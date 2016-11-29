@@ -24,7 +24,7 @@ GameObject:
   - 114: {fileID: 114000012448408508}
   - 114: {fileID: 114000012595825108}
   - 114: {fileID: 114000013982637016}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Lightning
   m_TagString: Lightning
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - 4: {fileID: 4000011683412234}
   - 33: {fileID: 33000012028252994}
   - 23: {fileID: 23000010842141208}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Lightning Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -21,7 +21,7 @@ GameObject:
   - 4: {fileID: 4000010252702156}
   - 33: {fileID: 33000010866956376}
   - 23: {fileID: 23000010065034320}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: prop_asteroid_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - 114: {fileID: 114000010375308022}
   - 114: {fileID: 114000013474768786}
   - 114: {fileID: 114000014114614488}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Asteroid_2
   m_TagString: Asteroid
   m_Icon: {fileID: 0}
