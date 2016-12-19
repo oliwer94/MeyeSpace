@@ -9,6 +9,7 @@ public class GameData
 	public float masterVol;
 
 	public int difficulityLevel;
+	public bool controlledByMouse;
 
 	public List<LeaderBoardEntry> leaderBoard = new List<LeaderBoardEntry> ();
 

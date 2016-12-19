@@ -7,12 +7,18 @@ public class RotateComponent : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-	//	gp = new GazePoint();
+		controlledByMouse = GameDataController.gameDataController.gameData.controlledByMouse;
+		if (!controlledByMouse) {
+			gp = new GazePoint ();
+		}
+		Debug.Log("controlledByMouse:" + controlledByMouse);
+
 	}
 
 	public float yRotation = 5.0F;
 
 	private GazePoint gp;
+	private bool controlledByMouse;
 
 	void Update ()
 	{
@@ -20,12 +26,18 @@ public class RotateComponent : MonoBehaviour
 //		transform.eulerAngles = new Vector3 (0, yRotation, 0);
 
 
+		Vector3 targetPos;
+		if (controlledByMouse) 
+		{
+			targetPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+		} 
+		else 
+		{
+			targetPos = Camera.main.ScreenToWorldPoint (gp.getGazeCoordsToUnityWindowCoords());			
+		}
 
-		//Vector3 targetPos = Camera.main.ScreenToWorldPoint (gp.getGazeCoordsToUnityWindowCoords());
-		Vector3 targetPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 		Vector2 nonDebilTargetPos = new Vector2 (targetPos.x, targetPos.z);
- 		//Vector2 flatVector = new Vector2 (transform.eulerAngles.x, transform.eulerAngles.z);
-
+ 		
 	  	float angle = Mathf.Atan2(nonDebilTargetPos.y, nonDebilTargetPos.x) * Mathf.Rad2Deg;
 
 		Quaternion q = Quaternion.AngleAxis (angle, Vector3.forward);
@@ -34,7 +46,7 @@ public class RotateComponent : MonoBehaviour
 	}
 
 
-
+	/*
 	float getRotationChange ()
 	{
 		Vector3 targetPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
@@ -42,5 +54,5 @@ public class RotateComponent : MonoBehaviour
 		Vector2 flatVector = new Vector2 (1, 0);
 		float angle = Vector2.Angle (flatVector, nonDebilTargetPos);
 		return angle;
-	}
+	}*/
 }

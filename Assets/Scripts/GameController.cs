@@ -27,7 +27,7 @@ public class GameController : MonoBehaviour {
 	public float spawnWait;
 	public float startWait;
 	public float waveWait;
-
+	public GameObject infoPanel;
 
 
 	public int lives;
@@ -35,6 +35,7 @@ public class GameController : MonoBehaviour {
 	public InputField nameInput;
 
 	public Text scoreTextOnPanel;
+	public Text timerTextOnPanel;
 
 	public GameObject gameOverPanel;
 
@@ -43,9 +44,12 @@ public class GameController : MonoBehaviour {
 
 	public GUIText scoreTextOnGameScreen;
 	public GUIText livesTextOnGameScreen;
-
+	private bool isFireRateBoosted;
+	private int numberOfFireRate;
+	private float timeOfexpiration;
 	public int dropRate;
 	public float fireRate = 0.5f; //0.413993
+	private float baseFireRate;
 	private int score;
 
 	// Use this for initialization
@@ -57,7 +61,7 @@ public class GameController : MonoBehaviour {
 
 		case 0:
 			hazardCount = (int)Constants.asteroidSpawnNumber.easy;
-			fireRate = ((float)Constants.fireRate.easy)/100;
+			fireRate = ((float)Constants.fireRate.easy) / 100;
 			dropRate = (int)Constants.powerUpPercentage.easy;
 			spawnWait = ((float)Constants.spawnWait.easy)/100;
 			break;
@@ -74,8 +78,8 @@ public class GameController : MonoBehaviour {
 			spawnWait = ((float)Constants.spawnWait.hard)/100;
 			break;
 		}
-		Debug.Log (fireRate);
-
+		baseFireRate = fireRate;
+		isFireRateBoosted = false;
 		gameOver = false;
 		restart = false;
 		lives = 3;
@@ -87,8 +91,7 @@ public class GameController : MonoBehaviour {
 
 	//Spawn waves of asteroids
 	IEnumerator SpawnWaves()
-	{
-		
+	{		
 
 		yield return new WaitForSeconds (startWait);
 
@@ -187,11 +190,29 @@ public class GameController : MonoBehaviour {
 				SceneManager.LoadScene (scene.name);
 			//}
 		}
+
+		if(Time.time > timeOfexpiration && isFireRateBoosted)
+		{
+			infoPanel.SetActive (false);
+			isFireRateBoosted = false;
+			this.fireRate = baseFireRate;
+		}
+			
+		if (isFireRateBoosted) {
+			
+			this.timerTextOnPanel.text = "Time left: " + (Mathf.Round((this.timeOfexpiration - Time.time) *10) / 10).ToString();
+		}
 	}
 
 	public void IncreaseFireRate()
 	{
+		infoPanel.SetActive (true);
+		isFireRateBoosted = true;
 		this.fireRate -= 0.05f;
+		this.timeOfexpiration = Time.time +  10f;
+		Debug.Log (Time.time);
+		Debug.Log (this.timeOfexpiration);
+
 	}
 
 	public void IncreaseLives()
@@ -208,7 +229,9 @@ public class GameController : MonoBehaviour {
 
 	public void GameOver()
 	{
-		
+		infoPanel.SetActive (false);
+		isFireRateBoosted = false;
+		this.fireRate = baseFireRate;
 		gameOverPanel.SetActive (true);
 		gameOver = true;
 		scoreTextOnPanel.text = scoreTextOnGameScreen.text;

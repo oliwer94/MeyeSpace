@@ -5,17 +5,17 @@ public class Constants  {
 
 	public enum fireRate
 	{
-		easy = 20,
+		easy = 25,
 		medium = 25,
-		hard = 30,
+		hard = 25,
 	}
 
 
 	public enum asteroidSpawnNumber
 	{
-		easy = 50,
+		easy = 75,
 		medium = 100,
-		hard = 150,
+		hard = 125,
 	}
 
 
@@ -28,8 +28,8 @@ public class Constants  {
 
 	public enum Asteroidspeed
 	{
-		easy = -2, //15%
-		medium = -3,//10%
+		easy = -3, //15%
+		medium = -4,//10%
 		hard = -5,//5%
 	}
 
@@ -37,6 +37,6 @@ public class Constants  {
 	{
 		easy = 20, //15%
 		medium = 15,//10%
-		hard = 10,//5%
+		hard = 15,//5%
 	}
 }
