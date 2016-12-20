@@ -8,6 +8,7 @@ public class SliderStartListener : MonoBehaviour {
 	public bool master;
 	public bool music;
 	public bool effects;
+	public bool camera;
 
 	// Use this for initialization
 	void Start () {
@@ -26,6 +27,8 @@ public class SliderStartListener : MonoBehaviour {
 			setBackgroundMusicVol ();
 		if (effects)
 			setSoundEffectsVol ();
+		if (camera)
+			setCameraSize ();
 			
 	}
 
@@ -41,5 +44,10 @@ public class SliderStartListener : MonoBehaviour {
 	public void setSoundEffectsVol()
 	{
 		GameDataController.gameDataController.gameData.soundEffectsVol = slider.value;
+	}
+
+	public void setCameraSize()
+	{
+		GameDataController.gameDataController.gameData.cameraSize = slider.value;
 	}
 }

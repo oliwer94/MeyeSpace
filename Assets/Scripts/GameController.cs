@@ -57,6 +57,43 @@ public class GameController : MonoBehaviour {
 
 		SetInGameSoundVol ();
 
+		RectTransform rectTransform = (RectTransform)infoPanel.GetComponents<RectTransform> ()[0];
+
+
+		Camera.main.orthographicSize = GameDataController.gameDataController.gameData.cameraSize;
+
+		switch ((int)Camera.main.orthographicSize)
+		{
+		case 6:
+			rectTransform.localScale = new Vector3 (0.7f, 1f, 1f);
+			rectTransform.offsetMin = new Vector2 (rectTransform.offsetMin.x, -180);
+			rectTransform.offsetMax = new Vector2 (rectTransform.offsetMax.x, -220);
+			break;
+		case 7:
+			rectTransform.localScale = new Vector3 (0.7f, 1f, 1f);
+			rectTransform.offsetMin = new Vector2 (rectTransform.offsetMin.x, -140);
+			rectTransform.offsetMax = new Vector2 (rectTransform.offsetMax.x, -180);
+			break;
+		case 8:
+			rectTransform.localScale = new Vector3 (1f, 1f, 1f);
+			rectTransform.offsetMin = new Vector2 (rectTransform.offsetMin.x, -100);
+			rectTransform.offsetMax = new Vector2 (rectTransform.offsetMax.x, -140);
+			break;
+		case 9:
+			rectTransform.localScale = new Vector3 (1f, 1f, 1f);
+			rectTransform.offsetMin = new Vector2 (rectTransform.offsetMin.x, -60);
+			rectTransform.offsetMax = new Vector2 (rectTransform.offsetMax.x, -100);
+			break;
+		default:
+			rectTransform.localScale = new Vector3 (1f, 1f, 1f);
+			rectTransform.offsetMin = new Vector2 (rectTransform.offsetMin.x, -20);
+			rectTransform.offsetMax = new Vector2 (rectTransform.offsetMax.x, -60);
+			break;
+		}
+
+
+
+
 		switch (GameDataController.gameDataController.gameData.difficulityLevel) {
 
 		case 0:

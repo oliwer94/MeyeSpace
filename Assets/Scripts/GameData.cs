@@ -9,10 +9,11 @@ public class GameData
 	public float masterVol;
 
 	public int difficulityLevel;
-	public bool controlledByMouse;
+	public bool controlledByMouse = true;
+
+	public float cameraSize;
 
 	public List<LeaderBoardEntry> leaderBoard = new List<LeaderBoardEntry> ();
-
 
 	public void AddNewScore (string nameValue, int value)
 	{		

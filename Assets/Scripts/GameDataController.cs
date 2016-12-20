@@ -34,6 +34,9 @@ public class GameDataController : MonoBehaviour {
 		}
 	}
 
+
+
+
 	public void Save()
 	{
 		BinaryFormatter bf = new BinaryFormatter ();
