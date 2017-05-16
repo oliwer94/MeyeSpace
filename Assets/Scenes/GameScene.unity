@@ -747,7 +747,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1601051357}
-        m_MethodName: RestartGame
+        m_MethodName: AddScoreToLeaderBoard
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -757,13 +757,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1601051357}
-        m_MethodName: AddScoreToLeaderBoard
-        m_Mode: 1
+      - m_Target: {fileID: 1601051359}
+        m_MethodName: sendStats
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1931,6 +1931,7 @@ GameObject:
   - 4: {fileID: 1601051356}
   - 114: {fileID: 1601051357}
   - 82: {fileID: 1601051358}
+  - 114: {fileID: 1601051359}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -1984,10 +1985,17 @@ MonoBehaviour:
   scoreTextOnPanel: {fileID: 1315918277}
   timerTextOnPanel: {fileID: 791460709}
   gameOverPanel: {fileID: 1601378077}
+  gameOver: 0
   scoreTextOnGameScreen: {fileID: 15154299}
   livesTextOnGameScreen: {fileID: 1054193209}
   dropRate: 0
   fireRate: 0.2
+  mostMediKitCountInOneLife: 0
+  mostLightningCountInOneLife: 0
+  mostBombCountInOneLife: 0
+  mostSkullCountInOneLife: 0
+  mostAsteroidsDestroyedInOneLife: 0
+  mostScoreInOneLife: 0
 --- !u!82 &1601051358
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2062,6 +2070,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &1601051359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1601051355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2d80ceed3e285249995f145b3208510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1601378077
 GameObject:
   m_ObjectHideFlags: 0
@@ -2411,7 +2430,9 @@ GameObject:
   - 222: {fileID: 1885095233}
   - 114: {fileID: 1885095232}
   - 114: {fileID: 1885095231}
+  - 114: {fileID: 1885095235}
   - 114: {fileID: 1885095234}
+  - 114: {fileID: 1885095236}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -2477,20 +2498,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1885095234}
-        m_MethodName: LoadSceneByIndex
+      - m_Target: {fileID: 1885095235}
+        m_MethodName: sendStats
         m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1601051357}
-        m_MethodName: AddScoreToLeaderBoard
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2543,6 +2553,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e59a34e2f5c4f674c9ec31da29480669, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1885095235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1885095229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2d80ceed3e285249995f145b3208510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1885095236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1885095229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2d80ceed3e285249995f145b3208510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2011004693

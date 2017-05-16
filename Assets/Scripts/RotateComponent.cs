@@ -7,10 +7,10 @@ public class RotateComponent : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		controlledByMouse = GameDataController.gameDataController.gameData.controlledByMouse;
-		if (!controlledByMouse) {
-			gp = new GazePoint ();
-		}
+		//controlledByMouse = GameDataController.gameDataController.gameData.controlledByMouse;
+		//if (!controlledByMouse) {
+		//	gp = new GazePoint ();
+		//}
 		Debug.Log("controlledByMouse:" + controlledByMouse);
 
 	}
@@ -18,23 +18,23 @@ public class RotateComponent : MonoBehaviour
 	public float yRotation = 5.0F;
 
 	private GazePoint gp;
-	private bool controlledByMouse;
+	private bool controlledByMouse = true;
 
 	void Update ()
 	{
 //		yRotation = getRotationChange ();
 //		transform.eulerAngles = new Vector3 (0, yRotation, 0);
-
-
 		Vector3 targetPos;
-		if (controlledByMouse) 
-		{
-			targetPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-		} 
-		else 
-		{
-			targetPos = Camera.main.ScreenToWorldPoint (gp.getGazeCoordsToUnityWindowCoords());			
-		}
+		targetPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+
+		//if (controlledByMouse) 
+		//{
+		//	targetPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+		//} 
+		//else 
+		//{
+	//		targetPos = Camera.main.ScreenToWorldPoint (gp.getGazeCoordsToUnityWindowCoords());			
+	//	}
 
 		Vector2 nonDebilTargetPos = new Vector2 (targetPos.x, targetPos.z);
  		

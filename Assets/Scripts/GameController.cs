@@ -3,7 +3,8 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour {
+public class GameController : MonoBehaviour
+{
 
 	public GameObject hazard;
 	public GameObject hazard2;
@@ -39,7 +40,7 @@ public class GameController : MonoBehaviour {
 
 	public GameObject gameOverPanel;
 
-	private bool gameOver;
+	public bool gameOver;
 	private bool restart;
 
 	public GUIText scoreTextOnGameScreen;
@@ -48,22 +49,33 @@ public class GameController : MonoBehaviour {
 	private int numberOfFireRate;
 	private float timeOfexpiration;
 	public int dropRate;
-	public float fireRate = 0.5f; //0.413993
+	public float fireRate = 0.5f;
+	//0.413993
 	private float baseFireRate;
 	private int score;
 
-	// Use this for initialization
-	void Start () {
+	private float startTime;
 
+	public int mostMediKitCountInOneLife = 0;
+	public int mostLightningCountInOneLife = 0;
+	public int mostBombCountInOneLife = 0;
+	public int mostSkullCountInOneLife = 0;
+	public int mostAsteroidsDestroyedInOneLife = 0;
+	public int mostScoreInOneLife = 0;
+
+	// Use this for initialization
+	void Start ()
+	{
+		startTime = Time.time;
+		ResetValues ();
 		SetInGameSoundVol ();
 
-		RectTransform rectTransform = (RectTransform)infoPanel.GetComponents<RectTransform> ()[0];
+		RectTransform rectTransform = (RectTransform)infoPanel.GetComponents<RectTransform> () [0];
 
 
 		Camera.main.orthographicSize = GameDataController.gameDataController.gameData.cameraSize;
 
-		switch ((int)Camera.main.orthographicSize)
-		{
+		switch ((int)Camera.main.orthographicSize) {
 		case 6:
 			rectTransform.localScale = new Vector3 (0.7f, 1f, 1f);
 			rectTransform.offsetMin = new Vector2 (rectTransform.offsetMin.x, -180);
@@ -91,30 +103,28 @@ public class GameController : MonoBehaviour {
 			break;
 		}
 
-
-
-
 		switch (GameDataController.gameDataController.gameData.difficulityLevel) {
 
 		case 0:
 			hazardCount = (int)Constants.asteroidSpawnNumber.easy;
 			fireRate = ((float)Constants.fireRate.easy) / 100;
 			dropRate = (int)Constants.powerUpPercentage.easy;
-			spawnWait = ((float)Constants.spawnWait.easy)/100;
+			spawnWait = ((float)Constants.spawnWait.easy) / 100;
 			break;
 		case 1:
 			hazardCount = (int)Constants.asteroidSpawnNumber.medium;
-			fireRate = ((float)Constants.fireRate.medium)/100;
+			fireRate = ((float)Constants.fireRate.medium) / 100;
 			dropRate = (int)Constants.powerUpPercentage.medium;
-			spawnWait = ((float)Constants.spawnWait.medium)/100;
+			spawnWait = ((float)Constants.spawnWait.medium) / 100;
 			break;
 		case 2:
-			hazardCount =(int) Constants.asteroidSpawnNumber.hard;
-			fireRate = ((float)Constants.fireRate.hard)/100;
+			hazardCount = (int)Constants.asteroidSpawnNumber.hard;
+			fireRate = ((float)Constants.fireRate.hard) / 100;
 			dropRate = (int)Constants.powerUpPercentage.hard;
-			spawnWait = ((float)Constants.spawnWait.hard)/100;
+			spawnWait = ((float)Constants.spawnWait.hard) / 100;
 			break;
 		}
+
 		baseFireRate = fireRate;
 		isFireRateBoosted = false;
 		gameOver = false;
@@ -127,17 +137,13 @@ public class GameController : MonoBehaviour {
 
 
 	//Spawn waves of asteroids
-	IEnumerator SpawnWaves()
+	IEnumerator SpawnWaves ()
 	{		
-
 		yield return new WaitForSeconds (startWait);
 
-		while (true)
-		{
-			
+		while (true) {
 
-			for (int i = 0; i < hazardCount; i++) 
-			{
+			for (int i = 0; i < hazardCount; i++) {
 				if (gameOver) {	
 					break;
 				}
@@ -149,30 +155,29 @@ public class GameController : MonoBehaviour {
 				//spawns top edge
 				case 0:
 					spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
-					spawnRotation.eulerAngles = new Vector3 (0,0f+ Random.Range(-30,30), 0);
+					spawnRotation.eulerAngles = new Vector3 (0, 0f + Random.Range (-30, 30), 0);
 					break;
 
 				//spawns bottom edge
 				case 1:
 					spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), spawnValues.y, -spawnValues.z);
-					spawnRotation.eulerAngles = new Vector3 (0, 180f+ Random.Range(-30,30), 0);	
+					spawnRotation.eulerAngles = new Vector3 (0, 180f + Random.Range (-30, 30), 0);	
 					break;
 
 				//spawns right edge
 				case 2:
 					spawnPosition = new Vector3 (spawnValues.x + 4.0f, spawnValues.y, Random.Range (-spawnValues.z + 2, spawnValues.z - 2));
-					spawnRotation.eulerAngles = new Vector3 (0, 90f+ Random.Range(-30,30), 0);
+					spawnRotation.eulerAngles = new Vector3 (0, 90f + Random.Range (-30, 30), 0);
 					break;
 
 				//spawns left edge
 				case 3:
 					spawnPosition = new Vector3 (-spawnValues.x - 4.0f, spawnValues.y, Random.Range (-spawnValues.z + 2, spawnValues.z - 2));
-					spawnRotation.eulerAngles = new Vector3 (0, -90f + Random.Range(-30,30), 0);
+					spawnRotation.eulerAngles = new Vector3 (0, -90f + Random.Range (-30, 30), 0);
 					break;
 				}
 
-				if (Random.Range (0, 1000) < dropRate) 
-				{
+				if (Random.Range (0, 1000) < dropRate) {
 					switch (Random.Range (0, 4)) {
 					case 0:
 						Instantiate (Bomb, spawnPosition, spawnRotation);
@@ -218,18 +223,17 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-	void Update()
+	void Update ()
 	{
 		if (restart) {
-		
+			ResetValues ();
 			//if (Input.GetKeyDown (KeyCode.R)) {
-				Scene scene = SceneManager.GetActiveScene (); 
-				SceneManager.LoadScene (scene.name);
+			Scene scene = SceneManager.GetActiveScene (); 
+			SceneManager.LoadScene (scene.name);
 			//}
 		}
 
-		if(Time.time > timeOfexpiration && isFireRateBoosted)
-		{
+		if (Time.time > timeOfexpiration && isFireRateBoosted) {
 			infoPanel.SetActive (false);
 			isFireRateBoosted = false;
 			this.fireRate = baseFireRate;
@@ -237,101 +241,163 @@ public class GameController : MonoBehaviour {
 			
 		if (isFireRateBoosted) {
 			
-			this.timerTextOnPanel.text = "Time left: " + (Mathf.Round((this.timeOfexpiration - Time.time) *10) / 10).ToString();
+			this.timerTextOnPanel.text = "Time left: " + (Mathf.Round ((this.timeOfexpiration - Time.time) * 10) / 10).ToString ();
 		}
 	}
 
-	public void IncreaseFireRate()
+	public void IncreaseFireRate ()
 	{
 		infoPanel.SetActive (true);
 		isFireRateBoosted = true;
 		this.fireRate -= 0.05f;
-		this.timeOfexpiration = Time.time +  10f;
-		Debug.Log (Time.time);
-		Debug.Log (this.timeOfexpiration);
+		this.timeOfexpiration = Time.time + 10f;
 
+		GameDataController.gameDataController.gameData.statObj.totalLightningCount++;
+		mostLightningCountInOneLife++;
+		GameDataController.gameDataController.gameData.statObj.mostLightningCountInOneGame++;
 	}
 
-	public void IncreaseLives()
+	public void OverWriteValuesIfLower ()
+	{
+		GameDataController.gameDataController.gameData.statObj.mostMediKitCountInOneLife = (GameDataController.gameDataController.gameData.statObj.mostMediKitCountInOneLife > mostMediKitCountInOneLife) ? GameDataController.gameDataController.gameData.statObj.mostMediKitCountInOneLife : mostMediKitCountInOneLife;
+		GameDataController.gameDataController.gameData.statObj.mostLightningCountInOneLife = (GameDataController.gameDataController.gameData.statObj.mostLightningCountInOneLife > mostLightningCountInOneLife) ? GameDataController.gameDataController.gameData.statObj.mostLightningCountInOneLife : mostLightningCountInOneLife;
+		GameDataController.gameDataController.gameData.statObj.mostBombCountInOneLife = (GameDataController.gameDataController.gameData.statObj.mostBombCountInOneLife > mostBombCountInOneLife) ? GameDataController.gameDataController.gameData.statObj.mostBombCountInOneLife : mostBombCountInOneLife;
+		GameDataController.gameDataController.gameData.statObj.mostSkullCountInOneLife = (GameDataController.gameDataController.gameData.statObj.mostSkullCountInOneLife > mostSkullCountInOneLife) ? GameDataController.gameDataController.gameData.statObj.mostSkullCountInOneLife : mostSkullCountInOneLife;
+		GameDataController.gameDataController.gameData.statObj.mostAsteroidsDestroyedInOneLife = (GameDataController.gameDataController.gameData.statObj.mostAsteroidsDestroyedInOneLife > mostAsteroidsDestroyedInOneLife) ? GameDataController.gameDataController.gameData.statObj.mostAsteroidsDestroyedInOneLife : mostAsteroidsDestroyedInOneLife;
+		GameDataController.gameDataController.gameData.statObj.mostScoreInOneLife = (GameDataController.gameDataController.gameData.statObj.mostScoreInOneLife > mostScoreInOneLife) ? GameDataController.gameDataController.gameData.statObj.mostScoreInOneLife : mostScoreInOneLife;
+	
+		ResetValues ();
+	}
+
+	public void ResetValues ()
+	{
+		mostMediKitCountInOneLife = 0;
+		mostLightningCountInOneLife = 0;
+		mostBombCountInOneLife = 0;
+		mostSkullCountInOneLife = 0;
+		mostAsteroidsDestroyedInOneLife = 0;
+		mostScoreInOneLife = 0;
+	}
+
+	public void IncreaseLives ()
 	{
 		this.lives++;
 		livesTextOnGameScreen.text = "Lives: " + lives;
+
+		GameDataController.gameDataController.gameData.statObj.totalMediKitCount++;
+		mostMediKitCountInOneLife++;
+		GameDataController.gameDataController.gameData.statObj.mostMediKitCountInOneGame++;
 	}
 
-	public void DecreaseLives()
+	public void BombHit ()
+	{
+		GameDataController.gameDataController.gameData.statObj.totalBombCount++;
+		mostBombCountInOneLife++;
+		GameDataController.gameDataController.gameData.statObj.mostBombCountInOneGame++;
+	}
+
+	public void SkullHit ()
+	{
+		GameDataController.gameDataController.gameData.statObj.totalSkullCount++;
+		mostSkullCountInOneLife++;
+		GameDataController.gameDataController.gameData.statObj.mostSkullCountInOneGame++;
+	}
+
+	public void DecreaseLives ()
 	{
 		this.lives--;
 		livesTextOnGameScreen.text = "Lives: " + lives;
+
+		GameDataController.gameDataController.gameData.statObj.mostLivesLostInOneGame++;
+		GameDataController.gameDataController.gameData.statObj.totalLivesLost++;
 	}
 
-	public void GameOver()
+	public void AsteroidDestroyed ()
 	{
-		infoPanel.SetActive (false);
-		isFireRateBoosted = false;
-		this.fireRate = baseFireRate;
-		gameOverPanel.SetActive (true);
-		gameOver = true;
-		scoreTextOnPanel.text = scoreTextOnGameScreen.text;
+		GameDataController.gameDataController.gameData.statObj.mostAsteroidsDestroyedInOneGame++;
+		mostAsteroidsDestroyedInOneLife++;
+		GameDataController.gameDataController.gameData.statObj.totalAsteroidsDestroyed++;
 	}
 
-	public void AddScore(int newScoreValue)
+	public void GameOver ()
+	{
+		if (!gameOver) {
+			GameDataController.gameDataController.dataState = "unsent";
+			infoPanel.SetActive (false);
+			isFireRateBoosted = false;
+			this.fireRate = baseFireRate;
+			gameOverPanel.SetActive (true);
+			gameOver = true;
+			scoreTextOnPanel.text = scoreTextOnGameScreen.text;
+
+			float gameLength = Time.time - startTime;
+
+			if (gameLength > GameDataController.gameDataController.gameData.statObj.longestGame) {
+				GameDataController.gameDataController.gameData.statObj.longestGame = gameLength;
+			}
+			GameDataController.gameDataController.gameData.statObj.timePlayedTotal += gameLength;
+			Debug.Log ("game ended  " + score);
+			GameDataController.gameDataController.gameData.statObj.scores.Add (score);
+		}
+
+		ResetValues ();
+	}
+
+	public void AddScore (int newScoreValue)
 	{
 		score += newScoreValue;
 		UpdateScore ();
+
+		mostScoreInOneLife+=newScoreValue;
+		GameDataController.gameDataController.gameData.statObj.mostScoreInOneGame+=newScoreValue;
+		GameDataController.gameDataController.gameData.statObj.totalScoreEarned+=newScoreValue;
 	}
 
-	void UpdateScore () {
-
+	void UpdateScore ()
+	{
 		scoreTextOnGameScreen.text = "Score: " + score;
 	}
 
-	public void RestartGame()
+	public void RestartGame ()
 	{
 		restart = true;
 	}
 
-	public void AddScoreToLeaderBoard()
+	public void AddScoreToLeaderBoard ()
 	{
-		if (GameDataController.gameDataController != null) 
-		{
-			if (GameDataController.gameDataController.gameData.leaderBoard != null) 
-			{
-				if (GameDataController.gameDataController.gameData.leaderBoard != null) 
-				{
-					GameDataController.gameDataController.gameData.AddNewScore (nameInput.textComponent.text,score);
-				} 
-				else 
-				{
+		if (GameDataController.gameDataController != null) {
+			if (GameDataController.gameDataController.gameData.leaderBoard != null) {
+				if (GameDataController.gameDataController.gameData.leaderBoard != null) {
+					GameDataController.gameDataController.gameData.AddNewScore (nameInput.textComponent.text, score);
+
+				} else {
 					Debug.Log ("Scores is NULL");
 				}
-			} 
-			else
-			{
+			} else {
 				Debug.Log ("LeaderBoard is NUll");
 			}
-		}	
-		else
-		{
+		} else {
 			Debug.Log ("gameData is NULL");
 		}
 	}
 
-	public void SetInGameSoundVol()
+	public void SetInGameSoundVol ()
 	{
-
 		float masterVol = GameDataController.gameDataController.gameData.masterVol;
 		float musicVol = GameDataController.gameDataController.gameData.backgroundMusicVol;
 		float effectsVol = GameDataController.gameDataController.gameData.soundEffectsVol;
 
-		SetMusicVol(masterVol > musicVol ? musicVol : masterVol);
-		SetEffectVol(masterVol > effectsVol ? effectsVol : masterVol);
+		SetMusicVol (masterVol > musicVol ? musicVol : masterVol);
+		SetEffectVol (masterVol > effectsVol ? effectsVol : masterVol);
 	}
-	public void SetMusicVol(float value)
+
+	public void SetMusicVol (float value)
 	{
 		AudioSource asource = GetComponent<AudioSource> ();
 		asource.volume = value;
 	}
-	public void SetEffectVol(float value)
+
+	public void SetEffectVol (float value)
 	{
 		AudioSource asource = turret.GetComponent<AudioSource> ();
 		asource.volume = value;

@@ -12,10 +12,12 @@ public class GameDataController : MonoBehaviour {
 
 	public static GameDataController gameDataController;
 
-//	public HighScores highScores;
-//	public LeaderBoard leaderBoard;
-
 	public GameData gameData;
+
+	public string dataState = "clean";
+
+
+	sendStat sender;
 
 	// Use this for initialization
 	void Awake () {
@@ -34,16 +36,11 @@ public class GameDataController : MonoBehaviour {
 		}
 	}
 
-
-
-
 	public void Save()
 	{
 		BinaryFormatter bf = new BinaryFormatter ();
 		FileStream fs = File.Create (Application.persistentDataPath + "/playerInfo.dat");
 		Debug.Log (Application.persistentDataPath);
-
-	
 		bf.Serialize (fs, gameData);
 		fs.Close ();
 	}
@@ -54,9 +51,7 @@ public class GameDataController : MonoBehaviour {
 		
 			BinaryFormatter bf = new BinaryFormatter ();
 			FileStream fs = File.Open(Application.persistentDataPath + "/playerInfo.dat",FileMode.Open);
-		
 			this.gameData = (GameData) bf.Deserialize (fs);
-
 			fs.Close ();
 		}
 	}

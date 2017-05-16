@@ -8,7 +8,7 @@ public class SliderStartListener : MonoBehaviour {
 	public bool master;
 	public bool music;
 	public bool effects;
-	public bool camera;
+	public bool cameraSize;
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +16,6 @@ public class SliderStartListener : MonoBehaviour {
 		slider.onValueChanged.AddListener (delegate {
 			ValueChanged ();
 		});
-			
 	}
 	
 	public void ValueChanged()
@@ -27,9 +26,8 @@ public class SliderStartListener : MonoBehaviour {
 			setBackgroundMusicVol ();
 		if (effects)
 			setSoundEffectsVol ();
-		if (camera)
+		if (cameraSize)
 			setCameraSize ();
-			
 	}
 
 	public void setMasterVol()
